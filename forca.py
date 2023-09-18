@@ -1,6 +1,9 @@
 import os
 import random
 
+def limpa_tela():
+    os.system('cls')
+
 def msg_abertura():
     
     print("*******************************")
@@ -24,10 +27,112 @@ def define_palavra_secreta():
 
 def define_letras_acertadas(palavra):
     return ["_" for letra in palavra]
-    
+
+def marca_chute_correto(chute, palavra_secreta, letras_acertadas):
+    index = 0
+    for letra in palavra_secreta:
+        if (chute == letra):
+            letras_acertadas[index] = letra
+        index += 1
+
+def define_chute_jogador():
+    chute = input("\nDigite sua letra: ").strip().upper()
+    return chute
+
+def imprime_mensagem_vencedor(palavra_secreta):
+    limpa_tela()
+    print("Parabéns, você ganhou!")
+    print("       ___________      ")
+    print("      '._==_==_=_.'     ")
+    print("      .-\\:      /-.    ")
+    print("     | (|:.     |) |    ")
+    print("      '-|:.     |-'     ")
+    print("        \\::.    /      ")
+    print("         '::. .'        ")
+    print("           ) (          ")
+    print("         _.' '._        ")
+    print("        '-------'       ") 
+  
+def imprime_mensagem_perdedor(palavra_secreta):
+    limpa_tela()
+    print("Você foi enforcado!")
+    print(f'A palavra era: {palavra_secreta}')
+    print("    _______________         ")
+    print("   /               \       ")
+    print("  /                 \      ")
+    print("//                   \/\  ")
+    print("\|   XXXX     XXXX   | /   ")
+    print(" |   XXXX     XXXX   |/     ")
+    print(" |   XXX       XXX   |      ")
+    print(" |                   |      ")
+    print(" \__      XXX      __/     ")
+    print("   |\     XXX     /|       ")
+    print("   | |           | |        ")
+    print("   | I I I I I I I |        ")
+    print("   |  I I I I I I  |        ")
+    print("   \_             _/       ")
+    print("     \_         _/         ")
+    print("       \_______/           \n")
+
+def desenha_forca(erros):
+    print("  _______     ")
+    print(" |/      |    ")
+
+    if(erros == 1):
+        limpa_tela()
+        print(" |      (_)   ")
+        print(" |            ")
+        print(" |            ")
+        print(" |            ")
+
+    if(erros == 2):
+        limpa_tela()
+        print(" |      (_)   ")
+        print(" |      \     ")
+        print(" |            ")
+        print(" |            ")
+
+    if(erros == 3):
+        limpa_tela()
+        print(" |      (_)   ")
+        print(" |      \|    ")
+        print(" |            ")
+        print(" |            ")
+
+    if(erros == 4):
+        limpa_tela()
+        print(" |      (_)   ")
+        print(" |      \|/   ")
+        print(" |            ")
+        print(" |            ")
+
+    if(erros == 5):
+        limpa_tela()
+        print(" |      (_)   ")
+        print(" |      \|/   ")
+        print(" |       |    ")
+        print(" |            ")
+
+    if(erros == 6):
+        limpa_tela()
+        print(" |      (_)   ")
+        print(" |      \|/   ")
+        print(" |       |    ")
+        print(" |      /     ")
+
+    if (erros == 7):
+        limpa_tela()
+        print(" |      (_)   ")
+        print(" |      \|/   ")
+        print(" |       |    ")
+        print(" |      / \   ")
+
+    print(" |            ")
+    print("_|___         ")
+    print()
 
 def jogo_forca():
-    os.system('cls')
+    limpa_tela()
     
     msg_abertura()
 
@@ -43,31 +148,23 @@ def jogo_forca():
 
     while(not enforcou and not acertou):
         
-        chute = input("\nDigite sua letra: ").strip().upper()
-        #chute = chute.strip().upper()
+        chute = define_chute_jogador()
         
         if (chute in palavra_secreta):    
-            index = 0
-            for letra in palavra_secreta:
-                if (chute == letra):
-                    letras_acertadas[index] = letra
-                index += 1
+            marca_chute_correto(chute, palavra_secreta, letras_acertadas)
         else:
             erros += 1
+            desenha_forca(erros)
             
-        enforcou = erros == 6
+        enforcou = erros == 7
         acertou = "_" not in letras_acertadas
             
         print(f'{letras_acertadas}')
     
     if (acertou):
-        os.system('cls')
-        print(f'Você ganhou, a palavra secreta era: {palavra_secreta.lower()}')
-        
+        imprime_mensagem_vencedor(palavra_secreta)
     else:
-        print('Você perdeu...')
-    
-    print("\nFim de jogo")
+        imprime_mensagem_perdedor(palavra_secreta)
 
 if(__name__ == "__main__"):    
     jogo_forca()
